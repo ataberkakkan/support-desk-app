@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTickets, reset } from "../features/tickets/ticketSlice";
+import { getTickets } from "../features/tickets/ticketSlice";
 import BackButton from "../components/BackButton";
 import TicketItem from "../components/TicketItem";
 
 function Tickets() {
-  const { tickets, isSuccess } = useSelector((state) => state.tickets);
+  const { tickets } = useSelector((state) => state.tickets);
 
   const dispatch = useDispatch();
 
