@@ -1,12 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
 import { getTicket, closeTicket } from "../features/tickets/ticketSlice";
+import { getNotes, reset } from "../features/notes/noteSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
+import NoteItem from "../components/NoteItem";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 function Ticket() {
   const { ticket, isError, message } = useSelector((state) => state.tickets);
+
+  const { notes } = useSelector((state) => state.notes);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,6 +22,7 @@ function Ticket() {
     }
 
     dispatch(getTicket(ticketId));
+    dispatch(getNotes(ticketId));
     //eslint-disable-next-line
   }, [isError, message, ticketId]);
 
@@ -46,7 +51,12 @@ function Ticket() {
           <h3>Description of issue</h3>
           <p>{ticket.description}</p>
         </div>
+        <h2>Notes</h2>
       </header>
+
+      {notes.map((note) => (
+        <NoteItem key={note._id} note={note} />
+      ))}
 
       {ticket.status !== "closed" && (
         <button onClick={onTicketClose} className="btn btn-block btn-danger">
